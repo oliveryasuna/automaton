@@ -11,11 +11,12 @@ public final class AutomatonRuns {
   public static boolean linearRun(final Object[] input, final Automaton automaton, final BiPredicate<Object, Object> equalityChecker) {
     if(input == null) throw new IllegalArgumentException("Argument [automaton] is null.");
     if(automaton == null) throw new IllegalArgumentException("Argument [automaton] is null.");
-    if(!automaton.hasStartState()) throw new IllegalArgumentException("Argument [automaton] has no start state.");
+    if(automaton.getStartState() == null) throw new IllegalArgumentException("Argument [automaton] has no start state.");
 
     return linearRun(input, automaton, automaton.getStartState(), equalityChecker != null ? equalityChecker : Object::equals);
   }
 
+  // TODO: Handle epsilon transitions.
   private static <T> boolean linearRun(final Object[] input, final Automaton automaton, final State state, final BiPredicate<Object, Object> equalityChecker) {
     if(input.length == 0) {
       return state.isAccepting();

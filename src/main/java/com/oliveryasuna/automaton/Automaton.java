@@ -1,7 +1,12 @@
 package com.oliveryasuna.automaton;
 
 import org.jgrapht.Graph;
+import org.jgrapht.graph.AsUnmodifiableGraph;
 import org.jgrapht.graph.DirectedPseudograph;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Automaton {
 
@@ -10,6 +15,8 @@ public class Automaton {
   private final Object epsilonSymbol;
 
   private State startState;
+
+  private Set<State> acceptingStates = new HashSet<>();
 
   public Automaton(final Object epsilonSymbol) {
     super();
@@ -20,11 +27,12 @@ public class Automaton {
   public State addState(final boolean accepting) {
     final State state = new State(graph.vertexSet().isEmpty(), accepting);
 
-    if(state.isStart()) {
-      this.startState = state;
+    if(!graph.addVertex(state)) {
+      return null;
     }
 
-    graph.addVertex(state);
+    if(state.isStart()) this.startState = state;
+    if(state.isAccepting()) acceptingStates.add(state);
 
     return state;
   }
@@ -69,20 +77,20 @@ public class Automaton {
     return false;
   }
 
-  boolean hasStartState() {
-    return (startState != null);
+  public Graph<State, Transition> getGraph() {
+    return new AsUnmodifiableGraph<>(graph);
   }
 
-  Graph<State, Transition> getGraph() {
-    return graph;
-  }
-
-  Object getEpsilonSymbol() {
+  public Object getEpsilonSymbol() {
     return epsilonSymbol;
   }
 
-  State getStartState() {
+  public State getStartState() {
     return startState;
+  }
+
+  public Set<State> getAcceptingStates() {
+    return Collections.unmodifiableSet(acceptingStates);
   }
 
 }

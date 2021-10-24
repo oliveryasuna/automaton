@@ -4,7 +4,7 @@ public class State {
 
   private final boolean start;
 
-  private boolean accepting;
+  private final boolean accepting;
 
   State(final boolean start, final boolean accepting) {
     super();
@@ -19,10 +19,6 @@ public class State {
 
   public boolean isAccepting() {
     return accepting;
-  }
-
-  public void setAccepting(final boolean accepting) {
-    this.accepting = accepting;
   }
 
 }
