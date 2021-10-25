@@ -6,6 +6,7 @@ import org.jgrapht.graph.DirectedPseudograph;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Automaton {
@@ -69,7 +70,7 @@ public class Automaton {
     }
 
     for(final Transition transition : graph.edgeSet()) {
-      if(transition.getSymbol().equals(epsilonSymbol)) {
+      if(Objects.equals(transition.getSymbol(), epsilonSymbol)) {
         return true;
       }
     }
